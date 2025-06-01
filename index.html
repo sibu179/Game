@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        .page {
+            display: none; /* Hide all pages by default */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .page.active {
+            display: block; /* Show the active page */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        /* Placeholder styles for games (you'll replace these) */
+        #snakeGameContainer, #runningGameContainer {
+            width: 300px;
+            height: 300px;
+            border: 2px solid black;
+            margin: 20px auto;
+            background-color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+    <script src='//libtl.com/sdk.js' data-zone='9401220' data-sdk='show_9401220'></script>
+</head>
+<body>
+
+    <!-- Page 1: Initial Click Page -->
+    <div id="page1" class="page active">
+       
+
+        // Rewarded interstitial
+
+        show_9401220().then(() => {
+            // You need to add your user reward function here, which will be executed after the user watches the ad.
+            // For more details, please refer to the detailed instructions.
+            alert('You have seen an ad!');
+        })
+
+        
+        <h1>Welcome!</h1>
+        <button onclick="showPage('page2')">Click</button>
+    </div>
+
+    <!-- Page 2: Game Selection Page -->
+    <div id="page2" class="page">
+        
+
+        // Rewarded Popup
+
+        show_9401220('pop').then(() => {
+            // user watch ad till the end or close it in interstitial format
+            // your code to reward user for rewarded format
+        }).catch(e => {
+            // user get error during playing ad
+            // do nothing or whatever you want
+        })
+
+        
+        <h2>Select a Game</h2>
+        <button onclick="showPage('pageSnakeGame')">Snake Game</button>
+        <button onclick="showPage('pageRunningGame')">Running Game</button>
+        <hr>
+        <button onclick="showPage('page1')">Back to Welcome</button>
+    </div>
+
+    <!-- Page 3: Snake Game Page -->
+    <div id="pageSnakeGame" class="page">
+        
+
+        // In-App Interstitial
+
+        show_9401220({
+          type: 'inApp',
+          inAppSettings: {
+            frequency: 2,
+            capping: 0.1,
+            interval: 30,
+            timeout: 5,
+            everyPage: false
+          }
+        })
+
+        /*
+        This value is decoded as follows:
+- show automatically 2 ads
+  within 0.1 hours (6 minutes)
+  with a 30-second interval between them
+  and a 5-second delay before the first one is shown.
+  The last digit, 0, means that the session will be saved when you navigate between pages.
+  If you set the last digit as 1, then at any transition between pages,
+  the session will be reset, and the ads will start again.
+*/
+
+
+        <h2>Snake Game</h2>
+        <p>The Snake Game will appear here.</p>
+        <div id="snakeGameContainer">
+            (Snake Game Canvas/Area)
+        </div>
+        <button onclick="showPage('page2')">Back to Game Selection</button>
+    </div>
+
+    <!-- Page 4: Running Game Page -->
+    <div id="pageRunningGame" class="page">
+        <h2>Running Game</h2>
+        <p>The Running Game will appear here.</p>
+        <div id="runningGameContainer">
+            (Running Game Canvas/Area)
+        </div>
+        <button onclick="showPage('page2')">Back to Game Selection</button>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            var pages = document.querySelectorAll('.page');
+            pages.forEach(function(page) {
+                page.classList.remove('active');
+            });
+
+            // Show the target page
+            var targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+
+        // Ensure the first page is shown on load (redundant due to 'active' class in HTML, but good practice)
+        // window.onload = function() {
+        //     showPage('page1');
+        // };
+    </script>
+
+</body>
+</html>
